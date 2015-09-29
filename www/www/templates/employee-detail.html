@@ -1,0 +1,64 @@
+<ion-view title="Employee Detail">
+    <ion-nav-bar class="bar-stable">
+        <ion-nav-back-button>
+
+        </ion-nav-back-button>
+        <ion-nav-buttons side="right">
+            <div class="profile-bar">
+                <img src="img/profile.jpeg" alt="" style="height: 35px;border-radius: 20px"/>
+
+
+                <div class="profile-username">{{userProfile.username}}</div>
+
+                <button class="button button-icon button-clear ion-log-out css-logout" ng-click="logout()">
+                </button>
+            </div>
+        </ion-nav-buttons>
+
+    </ion-nav-bar>
+    <ion-content has-header="true" padding="true" overflow-scroll="true">
+        <div class="row" >
+            <div class="col col-50">
+                <div class="list card">
+                    <div class="item item-divider">
+                        <div class="row">
+                            <div class="col col-50">
+                                <img data-ng-src="data:image/jpg;base64,{{employee.base64Image}}" style="width: 120px;height: 120px"/>
+                            </div>
+
+                            <div class="col col-50">
+                                <h1>{{employee.DisplayName}} </h1>
+
+                                <h2>Employee ID : {{employee.PersonNumber}}</h2>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <a class="item item-icon-left" href="tel:{{employee.WorkPhoneNumber}}"><i class="icon ion-ios-telephone"></i>Call Office<p>{{employee.WorkPhoneNumber}}</p></a>
+                    <a class="item item-icon-left" href="tel:{{employee.WorkPhoneNumber}}"><i class="icon ion-iphone"></i>Call Cell<p>{{employee.WorkPhoneNumber}}</p></a>
+                    <a class="item item-icon-left" href="sms:{{employee.WorkPhoneNumber}}"><i class="icon ion-iphone"></i>SMS<p>{{employee.WorkPhoneNumber}}</p></a>
+                    <a class="item item-icon-left" href="mailto:{{employee.WorkEmail}}"><i class="icon ion-email"></i>Email<p>{{employee.WorkEmail}}</p></a>
+                    <a class="item item-icon-left" ><i class="icon ion-location"></i>Email<p>{{employee.AddressLine1}},{{employee.City}},{{employee.Country}}</p></a>
+
+                </div>
+            </div>
+
+            <div class="col col-50">
+                <div class="list card">
+                    <div class="item item-divider">
+                        Expense Details
+                    </div>
+                    <div class="item item-text-wrap">
+                        <canvas id="doughnut" class="chart chart-doughnut"
+                                chart-data="graph_data" chart-labels="graph_labels" chart-legend="true">
+                        </canvas> 
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+    </ion-content>  
+
+</ion-view>

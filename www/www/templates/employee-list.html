@@ -1,0 +1,39 @@
+<ion-view title="Employees">
+    <ion-nav-bar class="bar-stable">
+        
+        <ion-nav-buttons side="right">
+            <div class="profile-bar">
+                <img src="img/profile.jpeg" alt="" style="height: 35px;border-radius: 20px"/>
+
+
+
+                <div class="profile-username">{{userProfile.username}}</div>
+
+                <button class="button button-icon button-clear ion-log-out css-logout" ng-click="logout()">
+                </button>
+            </div>
+        </ion-nav-buttons>
+
+    </ion-nav-bar>
+    <div class="bar bar-subheader item-input-inset">
+        <label class="item-input-wrapper">
+            <i class="icon ion-ios7-search placeholder-icon"></i>
+            <input id="searchKey" type="search" placeholder="Enter First Name" ng-model="searchKey" autocorrect="off" >
+            <button class="button button-clear" ng-click="clearSearch()">X</button>
+        </label>
+        <button class="button button-light" ng-click="search()">Search</button>
+    </div>
+
+    <ion-content class="has-header has-subheader">
+        <ion-list>
+            <ion-item ng-repeat="employee in employees" type="item-text-wrap" class="list card item item-divider"
+                      href="#/employees/{{employee.PersonId}}">
+
+                <h2> {{employee.DisplayName}} </h2>
+                <p>{{employee.WorkEmail}}</p> 
+
+            </ion-item>
+        </ion-list>
+    </ion-content>
+
+</ion-view>
