@@ -8,6 +8,7 @@
 angular.module('starter', ['ionic', 'starter.controllers', 'starter.services','chart.js'])
         .constant('HostMcsUrl', 'https://mobileportalsetrial1304dev-mcsdem0001.mobileenv.us2.oraclecloud.com')
         .constant('MCSBackendID', '7069f766-e4e1-434e-b71b-b68d311602b7')
+        
         .run(function ($ionicPlatform) {
             $ionicPlatform.ready(function () {
                 // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
@@ -30,7 +31,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services','c
             // Learn more here: https://github.com/angular-ui/ui-router
             // Set up the various states which the app can be in.
             // Each state's controller can be found in controllers.js
-            $stateProvider
+            
 
             $stateProvider
 

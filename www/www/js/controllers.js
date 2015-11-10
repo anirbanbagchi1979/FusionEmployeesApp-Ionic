@@ -24,7 +24,7 @@ angular.module('starter.controllers', [])
             $scope.userProfile = UserAuthService.getLoggedInUserProfile();
         })
 
-        .controller('EmployeeDetailCtrl', function ($scope, $stateParams, EmployeeService, UserAuthService) {
+        .controller('EmployeeDetailCtrl', function ($scope, $stateParams, EmployeeService, UserAuthService, $ionicModal) {
             //console.log('details');
             EmployeeService.getEmployeeDetailByID($stateParams.PersonId).success(function (data) {
                 $scope.employee = data;
@@ -43,8 +43,33 @@ angular.module('starter.controllers', [])
                 $scope.graph_data = graph_data;
 
             });
-            $scope.userProfile = UserAuthService.getLoggedInUserProfile();
+            EmployeeService.getExpenseImagesByExpenseID('W14154').success(function (data) {
 
+                $scope.imageFiles = data;
+
+            });
+            $scope.userProfile = UserAuthService.getLoggedInUserProfile();
+/*
+            $ionicModal.fromTemplateUrl('templates/expensesImagesModal.html', {
+                scope: $scope
+            }).then(function (modal) {
+                $scope.modal = modal;
+            }); 
+        */
+
+            $ionicModal.fromTemplateUrl('templates/expensesImagesModal.html', function ($ionicModal) {
+                $scope.modal = $ionicModal;
+            }, {
+                // Use our scope for the scope of the modal to keep it simple
+                scope: $scope,
+                // The animation we want to use for the modal entrance
+                animation: 'slide-in-up'
+            });
+
+            $scope.openModal = function (imageFile) {
+                $scope.image = imageFile;
+                $scope.modal.show();
+            }
 
         })
 
@@ -111,6 +136,7 @@ angular.module('starter.controllers', [])
             });
 
         })
+
 
         .factory('localstorage', ['$window', function ($window) {
                 return {

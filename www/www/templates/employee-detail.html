@@ -55,6 +55,28 @@
                         </canvas> 
                     </div>
                 </div>
+                <div class="list card">
+                    <div class="item item-divider">
+                        Expense Receipts 
+                    </div>
+
+                    <ion-list>
+                        <ion-item ng-repeat="imageFile in imageFiles" type="item-text-wrap" class="list card item item-divider">
+                            <div class="row">
+
+                                <div class="col col-50">
+
+                                    <img data-ng-src="data:image/jpg;base64,{{imageFile.base64Image}}" style="width: 40px;height: 40px" ng-click="openModal(imageFile)"/>
+                                </div>
+                                <div class="col col-50">
+                                    <h2> {{imageFile.name}} </h2>
+                                </div>
+                            </div>
+                        </ion-item>
+                    </ion-list>
+
+
+                </div>
             </div>
         </div>
 

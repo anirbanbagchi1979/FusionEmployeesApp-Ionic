@@ -84,7 +84,29 @@ angular.module('starter.services', [])
                     var resp = $http(req);
                     //console.log("Anirban" + resp);
                     return resp;
+                },
+                getExpenseImagesByExpenseID: function (expenseID) {
+                    //alert("In get WO")
+                    var getUrl = HostMcsUrl + '/mobile/custom/ExpenseReportImages_AB/filesList/' + expenseID;
+                    var req = {
+                        method: 'GET',
+                        url: getUrl,
+                        /* we should look automate this process here as well */
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Oracle-Mobile-Backend-Id': MCSBackendID,
+                            'Authorization': localStorage.getItem('authToken')
+
+                        }
+                        // data: 'grant_type=password&username=' + username + '&password=' + password
+                        //data: 'grant_type=password&username=lynn&password=123456'
+                    };
+                    //console.log("Anirban" + req);
+                    var resp = $http(req);
+                    //console.log("Anirban" + resp);
+                    return resp;
                 }
+                
 
 
             }
@@ -153,11 +175,12 @@ angular.module('starter.services', [])
                         // if all good go to the latest page where you was, in our case remove the login
 
                         localstorage.set('logged_in_user', username);
+                        localstorage.set('authToken', 'Basic TUNTREVNMDAwMV9NT0JJTEVQT1JUQUxTRVRSSUFMMTMwNERFVl9NT0JJTEVfQU5PTllNT1VTX0FQUElEOmR5Nm91NW5wX3RnbE5r');
                         $rootScope.$broadcast('event:auth-loginConfirmed');
 
                         // find way to reset the controler
                         //$state.go($state.current, {}, {reload: true});
-                        $state.transitionTo('app.home', {}, {
+                        $state.transitionTo('search', {}, {
                             location: true,
                             inherit: true,
                             relative: $state.$current,
