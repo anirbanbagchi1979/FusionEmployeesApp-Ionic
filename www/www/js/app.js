@@ -5,7 +5,7 @@
 // the 2nd parameter is an array of 'requires'
 // 'starter.services' is found in services.js
 // 'starter.controllers' is found in controllers.js
-angular.module('starter', ['ionic', 'starter.controllers', 'starter.services','chart.js'])
+angular.module('starter', ['ionic', 'starter.controllers', 'starter.services','chart.js','ngCordova'])
         .constant('HostMcsUrl', 'https://mobileportalsetrial1304dev-mcsdem0001.mobileenv.us2.oraclecloud.com')
         .constant('MCSBackendID', '7069f766-e4e1-434e-b71b-b68d311602b7')
         
@@ -22,6 +22,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services','c
                     // org.apache.cordova.statusbar required
                     StatusBar.styleLightContent();
                 }
+                
             });
         })
 

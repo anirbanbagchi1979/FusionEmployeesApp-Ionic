@@ -1,6 +1,51 @@
 angular.module('starter.controllers', [])
 
-        .controller('EmployeeListCtrl', function ($scope, EmployeeService, UserAuthService) {
+        .controller('EmployeeListCtrl', function ($scope, EmployeeService, UserAuthService, ionPlatform, $cordovaPush) {
+                    //alert('Anirban');
+
+            // call to register automatically upon device ready
+            ionPlatform.ready.then(function (device) {
+                $scope.register();
+            });
+
+
+            // Register
+            $scope.register = function () {
+                var config = null;
+
+                if (ionic.Platform.isAndroid()) {
+                    config = {
+                        "senderID": "YOUR_GCM_PROJECT_ID" // REPLACE THIS WITH YOURS FROM GCM CONSOLE - also in the project URL like: https://console.developers.google.com/project/434205989073
+                    };
+                }
+                else if (ionic.Platform.isIOS()) {
+                    config = {
+                        "badge": "true",
+                        "sound": "true",
+                        "alert": "true"
+                    }
+                }
+
+                $cordovaPush.register(config).then(function (result) {
+                    console.log("Register success " + result);
+
+                    //$cordovaToast.showShortCenter('Registered for push notifications');
+                    $scope.registerDisabled = true;
+                    // ** NOTE: Android regid result comes back in the pushNotificationReceived, only iOS returned here
+                    if (ionic.Platform.isIOS()) {
+                        $scope.regId = result;
+                        EmployeeService.registerWithMCSNotifications(result).success(function (data) {
+                    $scope.mcsRegistryMessage = data;
+                });
+                        
+                        //Add MCS code to
+                        //storeDeviceToken("ios");
+                        //alert(result)
+                    }
+                }, function (err) {
+                    console.log("Register error " + err)
+                });
+            }
 
             $scope.searchKey = "";
 
@@ -49,13 +94,13 @@ angular.module('starter.controllers', [])
 
             });
             $scope.userProfile = UserAuthService.getLoggedInUserProfile();
-/*
-            $ionicModal.fromTemplateUrl('templates/expensesImagesModal.html', {
-                scope: $scope
-            }).then(function (modal) {
-                $scope.modal = modal;
-            }); 
-        */
+            /*
+             $ionicModal.fromTemplateUrl('templates/expensesImagesModal.html', {
+             scope: $scope
+             }).then(function (modal) {
+             $scope.modal = modal;
+             }); 
+             */
 
             $ionicModal.fromTemplateUrl('templates/expensesImagesModal.html', function ($ionicModal) {
                 $scope.modal = $ionicModal;

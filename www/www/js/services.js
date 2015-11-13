@@ -105,8 +105,40 @@ angular.module('starter.services', [])
                     var resp = $http(req);
                     //console.log("Anirban" + resp);
                     return resp;
-                }
+                },
                 
+                registerWithMCSNotifications: function (deviceToken) {
+                    //alert("In get WO")
+                    var getUrl = HostMcsUrl + '/mobile/platform/devices/register' ;
+                    
+                            
+                    
+                    var req = {
+                        method: 'POST',
+                        url: getUrl,
+                        /* we should look automate this process here as well */
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Oracle-Mobile-Backend-Id': MCSBackendID,
+                            'Authorization': localStorage.getItem('authToken')
+
+                        },
+                        data: {
+                            'notificationToken' : deviceToken,
+                            'mobileClient': {
+                                    'id': 'com.oraclecorp.internal.ent3.fusionemployeesapp',
+                                    'version': '1.0',
+                                    'platform': 'IOS'
+                                  }
+                        }
+                        
+                    };
+                    //console.log("Anirban" + req);
+                    var resp = $http(req);
+                    //console.log("Anirban" + resp);
+                    return resp;
+                }
+
 
 
             }
@@ -198,11 +230,11 @@ angular.module('starter.services', [])
                             $ionicHistory.clearCache();
                             alert("logout")
                             $state.transitionTo('login', {}, {
-                            location: true,
-                            inherit: true,
-                            relative: $state.$current,
-                            notify: true
-                        });
+                                location: true,
+                                inherit: true,
+                                relative: $state.$current,
+                                notify: true
+                            });
                         }
                     },
                     isLoggedIn: function () {
@@ -245,6 +277,17 @@ angular.module('starter.services', [])
                 };
             }
         ])
+        .factory('ionPlatform', function ($q) {
+            var ready = $q.defer();
+
+            ionic.Platform.ready(function (device) {
+                ready.resolve(device);
+            });
+
+            return {
+                ready: ready.promise
+            }
+        })
         .factory('Chats', function () {
             // Might use a resource here that returns a JSON array
 
