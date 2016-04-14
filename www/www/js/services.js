@@ -104,7 +104,7 @@ angular.module('starter.services', [])
                     //console.log("Anirban" + req);
                     var resp = $http(req);
                     //console.log("Anirban" + resp);
-                    return resp;
+                    return resp;add 
                 },
                 
                 registerWithMCSNotifications: function (deviceToken) {
@@ -133,9 +133,8 @@ angular.module('starter.services', [])
                         }
                         
                     };
-                    //console.log("Anirban" + req);
+                    console.log("Anirban" + JSON.stringify(req) );
                     var resp = $http(req);
-                    //console.log("Anirban" + resp);
                     return resp;
                 }
 

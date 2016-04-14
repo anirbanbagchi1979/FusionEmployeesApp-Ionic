@@ -1,7 +1,7 @@
 angular.module('starter.controllers', [])
 
         .controller('EmployeeListCtrl', function ($scope, EmployeeService, UserAuthService, ionPlatform, $cordovaPush) {
-                    //alert('Anirban');
+            //alert('Anirban');
 
             // call to register automatically upon device ready
             ionPlatform.ready.then(function (device) {
@@ -11,20 +11,12 @@ angular.module('starter.controllers', [])
 
             // Register
             $scope.register = function () {
-                var config = null;
+                var config = {
+                    "badge": "true",
+                    "sound": "true",
+                    "alert": "true"
+                }
 
-                if (ionic.Platform.isAndroid()) {
-                    config = {
-                        "senderID": "YOUR_GCM_PROJECT_ID" // REPLACE THIS WITH YOURS FROM GCM CONSOLE - also in the project URL like: https://console.developers.google.com/project/434205989073
-                    };
-                }
-                else if (ionic.Platform.isIOS()) {
-                    config = {
-                        "badge": "true",
-                        "sound": "true",
-                        "alert": "true"
-                    }
-                }
 
                 $cordovaPush.register(config).then(function (result) {
                     console.log("Register success " + result);
@@ -35,9 +27,12 @@ angular.module('starter.controllers', [])
                     if (ionic.Platform.isIOS()) {
                         $scope.regId = result;
                         EmployeeService.registerWithMCSNotifications(result).success(function (data) {
-                    $scope.mcsRegistryMessage = data;
-                });
-                        
+
+                            console.log("Anirban Response" + data.data);
+                            console.log("Anirban Response JSON" + JSON.stringify(data));
+                            $scope.mcsRegistryMessage = data;
+                        });
+
                         //Add MCS code to
                         //storeDeviceToken("ios");
                         //alert(result)
@@ -45,6 +40,57 @@ angular.module('starter.controllers', [])
                 }, function (err) {
                     console.log("Register error " + err)
                 });
+            }
+            $scope.$on('$cordovaPush:notificationReceived', function (event, notification) {
+                console.log(JSON.stringify([notification]));
+
+                $cordovaPush.setBadgeNumber(notification.badge).then(function (result) {
+                    // Success!
+                }, function (err) {
+                    // An error occurred. Show a message to the user
+                });
+                $scope.$apply(function () {
+                    $scope.notifications.push(JSON.stringify(notification.alert));
+                })
+
+            });
+
+            // IOS Notification Received Handler
+            function handleIOS(notification) {
+                // The app was already open but we'll still show the alert and sound the tone received this way. If you didn't check
+                // for foreground here it would make a sound twice, once when received in background and upon opening it from clicking
+                // the notification when this code runs (weird).
+                if (notification.foreground == "1") {
+                    // Play custom audio if a sound specified.
+                    if (notification.sound) {
+                        var mediaSrc = $cordovaMedia.newMedia(notification.sound);
+                        mediaSrc.promise.then($cordovaMedia.play(mediaSrc.media));
+                    }
+
+                    if (notification.body && notification.messageFrom) {
+                        $cordovaDialogs.alert(notification.body, notification.messageFrom);
+                    }
+                    else
+                        $cordovaDialogs.alert(notification.alert, "Push Notification Received");
+
+                    if (notification.badge) {
+                        $cordovaPush.setBadgeNumber(notification.badge).then(function (result) {
+                            console.log("Set badge success " + result)
+                        }, function (err) {
+                            console.log("Set badge error " + err)
+                        });
+                    }
+                }
+                // Otherwise it was received in the background and reopened from the push notification. Badge is automatically cleared
+                // in this case. You probably wouldn't be displaying anything at this point, this is here to show that you can process
+                // the data in this situation.
+                else {
+                    if (notification.body && notification.messageFrom) {
+                        $cordovaDialogs.alert(notification.body, "(RECEIVED WHEN APP IN BACKGROUND) " + notification.messageFrom);
+                    }
+                    else
+                        $cordovaDialogs.alert(notification.alert, "(RECEIVED WHEN APP IN BACKGROUND) Push Notification Received");
+                }
             }
 
             $scope.searchKey = "";
