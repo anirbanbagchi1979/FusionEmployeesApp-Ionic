@@ -5,9 +5,10 @@
 // the 2nd parameter is an array of 'requires'
 // 'starter.services' is found in services.js
 // 'starter.controllers' is found in controllers.js
+
 angular.module('starter', ['ionic', 'starter.controllers', 'starter.services','chart.js'])
-        .constant('HostMcsUrl', 'https://mobileportalsetrial1304dev-mcsdem0001.mobileenv.us2.oraclecloud.com')
-        .constant('MCSBackendID', '7069f766-e4e1-434e-b71b-b68d311602b7')
+        .constant('HostMcsUrl', 'https://******************.mobileenv.us2.oraclecloud.com')//Change this endpoint
+        .constant('MCSBackendID', '7069f766-e4e1-434e-b71b-b68d311602b7')//Change this ID to your backend ID
         
         .run(function ($ionicPlatform) {
             $ionicPlatform.ready(function () {
